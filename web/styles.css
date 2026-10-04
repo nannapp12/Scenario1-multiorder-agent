@@ -1,0 +1,43 @@
+:root {
+  --bg: #f7f7f5; --surface: #ffffff; --text: #1d1d1b; --muted: #6b6b66;
+  --border: #e3e2de; --accent: #2f5bd3; --accent-text: #ffffff; --danger: #c0392b;
+  --listening: #d64545;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161615; --surface: #20201f; --text: #ededea; --muted: #9a9a94;
+    --border: #34342f; --accent: #6d8ff0; --accent-text: #0e0e0d; --danger: #ef7d6e;
+    --listening: #ef6b6b;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 960px; margin: 0 auto; padding: 40px 16px 64px; }
+h1 { margin: 0 0 4px; font-size: 28px; }
+.sub { margin: 0 0 24px; color: var(--muted); }
+form { display: flex; gap: 8px; }
+input { flex: 1; min-width: 0; padding: 12px 14px; font: inherit; color: var(--text);
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+button { font: inherit; border-radius: 10px; border: 1px solid var(--border); cursor: pointer; }
+.primary { padding: 0 20px; background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+.mic { width: 48px; display: grid; place-items: center; background: var(--surface); color: var(--text); }
+.mic.listening { background: var(--listening); color: #fff; border-color: var(--listening);
+  animation: pulse 1.2s infinite; }
+@keyframes pulse { 50% { opacity: .7; } }
+button:disabled { opacity: .5; cursor: progress; }
+.status { min-height: 1.5em; color: var(--muted); font-size: 14px; }
+.status.error { color: var(--danger); }
+.answer { font-size: 18px; margin: 8px 0 16px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 16px; margin-bottom: 16px; }
+.table-wrap { overflow-x: auto; padding: 0; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+th { font-weight: 600; color: var(--muted); }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr:last-child td { border-bottom: 0; }
+details { color: var(--muted); font-size: 14px; }
+pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+  padding: 10px; overflow-x: auto; white-space: pre-wrap; color: var(--text); }

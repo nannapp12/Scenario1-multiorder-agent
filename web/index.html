@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Orders Voice Analyst</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.46.0/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Orders Voice Analyst</h1>
+      <p class="sub">Ask about orders across Databricks, MySQL and Snowflake. Speak or type your question.</p>
+    </header>
+
+    <form id="ask-form">
+      <button type="button" id="mic" class="mic" aria-label="Ask by voice" title="Ask by voice">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2Z"/></svg>
+      </button>
+      <input id="question" type="text" placeholder="e.g. Total revenue by region this year" autocomplete="off" maxlength="1000">
+      <button type="submit" id="ask" class="primary">Ask</button>
+    </form>
+    <p id="status" class="status" role="status"></p>
+
+    <section id="result" hidden>
+      <p id="answer" class="answer"></p>
+      <div id="chart-wrap" class="card" hidden><canvas id="chart" height="320"></canvas></div>
+      <div class="card table-wrap"><table id="table"></table></div>
+      <details id="sql-details">
+        <summary>SQL queries run</summary>
+        <div id="sql"></div>
+      </details>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

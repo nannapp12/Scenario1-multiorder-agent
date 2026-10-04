@@ -1,0 +1,59 @@
+# Databricks Asset Bundle: Lakeflow Job that loads/refreshes the Orders Delta table.
+# Deploy:  databricks bundle deploy -t prod   |  Run now:  databricks bundle run orders_refresh -t prod
+bundle:
+  name: orders-pipelines
+
+variables:
+  catalog:
+    default: orders_catalog
+  schema:
+    default: sales
+  landing_path:
+    description: ABFSS path of the Unity Catalog external location for landed CSVs
+    default: abfss://landing@<storageaccount>.dfs.core.windows.net/databricks/
+
+resources:
+  jobs:
+    orders_refresh:
+      name: orders-refresh
+      schedule:
+        quartz_cron_expression: "0 0 * * * ?"   # hourly
+        timezone_id: UTC
+        pause_status: UNPAUSED
+      max_concurrent_runs: 1
+      email_notifications:
+        on_failure: []                          # add your on-call address
+      tasks:
+        - task_key: load_orders
+          environment_key: serverless
+          spark_python_task:
+            python_file: ./src/load_orders.py
+            parameters:
+              - "--catalog=${var.catalog}"
+              - "--schema=${var.schema}"
+              - "--landing-path=${var.landing_path}"
+          max_retries: 2
+          min_retry_interval_millis: 60000
+        - task_key: optimize
+          depends_on: [{ task_key: load_orders }]
+          environment_key: serverless
+          spark_python_task:
+            python_file: ./src/optimize_orders.py
+            parameters: ["--table=${var.catalog}.${var.schema}.orders"]
+      environments:
+        - environment_key: serverless
+          spec:
+            client: "2"
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://adb-<workspace-id>.<n>.azuredatabricks.net
+  prod:
+    mode: production
+    workspace:
+      host: https://adb-<workspace-id>.<n>.azuredatabricks.net
+    run_as:
+      service_principal_name: <pipeline-service-principal-app-id>

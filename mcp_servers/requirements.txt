@@ -1,0 +1,8 @@
+mcp>=1.12
+uvicorn>=0.30
+starlette>=0.37
+sqlglot>=25.0
+databricks-sql-connector>=3.4
+pymysql>=1.1
+snowflake-connector-python>=3.12
+cryptography>=42

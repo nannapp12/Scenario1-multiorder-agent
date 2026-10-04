@@ -1,0 +1,7 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic-settings>=2.4
+httpx>=0.27
+azure-identity>=1.17
+azure-ai-projects>=1.0.0
+azure-ai-agents>=1.1.0
